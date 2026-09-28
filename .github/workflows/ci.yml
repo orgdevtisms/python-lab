@@ -2,11 +2,9 @@ name: Python CI
 
 on:
   push:
-    branches: 
-    - PyDevelop          
+    branches: [ PyDevelop ]          
     pull_request:
-      branches: 
-    - PyDevelop
+    branches:  [ PyDevelop ]
 
 jobs:
   build:
