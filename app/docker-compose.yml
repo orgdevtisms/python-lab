@@ -1,18 +1,16 @@
 services:
-  config-viewer:
+  pdf-exporter:
     build: .
-    image: config-viewer:latest
-    container_name: config-viewer
+    container_name: grafana-pdf-exporter
     restart: unless-stopped
-    network_mode: host   # hostname/IPs reais do servidor (ignora "ports")
+    ports:
+      - "8085:8085"
     environment:
-      APP_NAME: ${APP_NAME:-config-viewer}
-      APP_VERSION: ${APP_VERSION:-1.0.0}
-      PORT: ${APP_PORT:-8080}
-    volumes:
-      - /etc/os-release:/host/os-release:ro
-    healthcheck:
-      test: ["CMD", "python", "-c", "import os,urllib.request; urllib.request.urlopen('http://localhost:%s/health' % os.getenv('PORT','8080'))"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
+      GRAFANA_URL: "http://10.200.201.119:3000"   # troque se o Grafana estiver em outra rede/host
+      GRAFANA_TOKEN: "glsa_PKwsr1GzF6cfPLgOXZvafDZ9FFnt9UYD_46f6c9a1"
+      DASH_UID: "deas2tf4nfl6oe"
+      DASH_TITLE: "MONITORAMENTO GIGANET"
+      ORIENTATION: "portrait"      # ou landscape
+      TZ: "America/Sao_Paulo"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

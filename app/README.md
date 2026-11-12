@@ -1,42 +1,26 @@
-# config-viewer
+# pdf-exporter (Grafana → PDF)
 
-App Flask que lê as configurações do host/container onde roda e exibe em uma página web.
-Serve como **template padrão** para as próximas apps (Dockerfile + compose + health check).
+O Grafana livre não exporta PDF sozinho. Este serviço abre o dashboard num Chromium headless,
+carrega todos os painéis e devolve um PDF paginado (corta entre painéis, com rodapé e número de página).
 
-## Endpoints
-- `/` página web
-- `/api/config` JSON
-- `/health` health check
+## 1. Token
+Grafana → Administration → Users and access → **Service accounts** → criar com papel **Viewer** → *Add token*.
+Cole em `GRAFANA_TOKEN` no `docker-compose.yml` (ou use um Portainer Stack com as mesmas variáveis).
 
-## Rodar local
-```bash
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python app.py        # http://localhost:8080
-```
+## 2. Subir
+    docker compose up -d --build
+    curl "http://localhost:8085/health"
 
-## Docker
-```bash
-cp .env.example .env
-docker compose up -d --build
-```
+## 3. Botão no dashboard
+O dashboard já tem o link **📄 Exportar PDF** apontando para `http://SEU_SERVIDOR:8085/pdf`.
+Troque `SEU_SERVIDOR` pelo IP/nome do servidor (Dashboard settings → Links). O link envia o período
+e os filtros (unidade e interface) que estiverem selecionados.
 
-## Deploy no Portainer (Stack via Git)
-1. Stacks → Add stack → **Repository**
-2. Repository URL: URL do repo no GitHub (se privado, ative Authentication e use um PAT)
-3. Compose path: `docker-compose.yml`
-4. Environment variables: `APP_PORT`, `APP_NAME`, `APP_VERSION`
-5. Deploy the stack → acesse `http://IP-DO-HOST:APP_PORT`
+## Opções
+- `&expandir=1` na URL: tenta expandir as linhas recolhidas (detalhe por unidade). Pode ficar longo.
+- Linha de comando: `python app.py --out sla.pdf --query "from=now-30d&to=now&var-unidade=SANTA"`
 
-## Padrão para novas apps
-Copie a pasta e altere: nome do serviço/container no compose, `APP_NAME`, porta e código em `app.py`.
-Mantenha `/health`, usuário não-root e variáveis via ambiente (nunca commitar `.env`).
-
-## Rede e host (Ubuntu)
-O compose usa `network_mode: host`: hostname e IPs mostrados são os do servidor, e a porta vem de `APP_PORT`
-(confira se está livre). `/etc/os-release` é montado em modo leitura para exibir o SO real.
-Se preferir isolar, remova `network_mode` e use `ports: ["${APP_PORT:-8080}:8080"]` com `PORT=8080`.
-
-## Nota
-Dentro do container, os dados são do container (hostname, IP, CPU/RAM visíveis a ele).
-Variáveis com KEY, SECRET, TOKEN, PASS, PWD ou CREDENTIAL no nome são mascaradas.
+## Observações
+- O serviço não tem login próprio: deixe-o acessível só na rede interna.
+- Tabelas com mais linhas que a altura do painel mostram rolagem; aumente a altura do painel se crescer o nº de unidades.
+- O PDF é uma captura de imagem de alta resolução (texto não selecionável).

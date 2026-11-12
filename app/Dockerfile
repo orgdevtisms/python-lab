@@ -1,16 +1,8 @@
-FROM python:3.12-slim
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
+# a imagem oficial já traz Python, Playwright e o Chromium
+FROM mcr.microsoft.com/playwright/python:v1.49.0-jammy
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-RUN useradd -m appuser
-USER appuser
-
-EXPOSE 8080
-CMD ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT:-8080} -w 2 app:app"]
+COPY app.py .
+EXPOSE 8085
+CMD ["gunicorn", "-b", "0.0.0.0:8085", "--workers", "2", "--timeout", "240", "app:app"]
