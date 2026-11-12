@@ -7,7 +7,7 @@ services:
       - "8085:8085"
     environment:
       GRAFANA_URL: "http://host.docker.internal:3000"   # troque se o Grafana estiver em outra rede/host
-      GRAFANA_TOKEN: "COLE_AQUI_O_TOKEN_DA_SERVICE_ACCOUNT"
+      GRAFANA_TOKEN: "glsa_PKwsr1GzF6cfPLgOXZvafDZ9FFnt9UYD_46f6c9a1"
       # GRAFANA_USER: "admin"          # alternativa ao token (deixe GRAFANA_TOKEN vazio)
       # GRAFANA_PASSWORD: "senha"
       DASH_UID: "deas2tf4nfl6oe"
