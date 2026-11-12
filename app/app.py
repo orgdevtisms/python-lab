@@ -8,7 +8,7 @@ import argparse, datetime as dt, io, os, re, threading
 from urllib.parse import parse_qsl, urlencode
 
 GRAFANA_URL = os.getenv("GRAFANA_URL", "http://10.200.201.119:3000").rstrip("/")
-GRAFANA_TOKEN = os.getenv("GRAFANA_TOKEN", "")              # service account (Viewer)
+GRAFANA_TOKEN = os.getenv("glsa_PKwsr1GzF6cfPLgOXZvafDZ9FFnt9UYD_46f6c9a1", "")              # service account (Viewer)
 DASH_UID = os.getenv("DASH_UID", "deas2tf4nfl6oe")
 DASH_TITLE = os.getenv("DASH_TITLE", "MONITORAMENTO GIGANET")
 VIEW_W = int(os.getenv("VIEW_WIDTH", "1600"))
