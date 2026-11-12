@@ -1,0 +1,16 @@
+services:
+  pdf-exporter:
+    build: .
+    container_name: grafana-pdf-exporter
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+    environment:
+      GRAFANA_URL: "http://10.200.201.119:3000"   # troque se o Grafana estiver em outra rede/host
+      GRAFANA_TOKEN: "glsa_PKwsr1GzF6cfPLgOXZvafDZ9FFnt9UYD_46f6c9a1"
+      DASH_UID: "deas2tf4nfl6oe"
+      DASH_TITLE: "MONITORAMENTO GIGANET"
+      ORIENTATION: "portrait"      # ou landscape
+      TZ: "America/Sao_Paulo"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
