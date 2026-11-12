@@ -8,7 +8,7 @@ import argparse, datetime as dt, io, os, re, threading
 from urllib.parse import parse_qsl, urlencode
 
 GRAFANA_URL = os.getenv("GRAFANA_URL", "http://10.200.201.119:3000").rstrip("/")
-GRAFANA_TOKEN = os.getenv("glsa_PKwsr1GzF6cfPLgOXZvafDZ9FFnt9UYD_46f6c9a1", "")              # service account (Viewer)
+GRAFANA_TOKEN = os.getenv("GRAFANA_TOKEN", "")              # service account (Viewer)
 GRAFANA_USER = os.getenv("GRAFANA_USER", "")                # alternativa ao token: login por formulário
 GRAFANA_PASSWORD = os.getenv("GRAFANA_PASSWORD", "")
 PANEL_SEL = '[data-testid*="Panel header"], [data-viz-panel-key], .react-grid-item'
