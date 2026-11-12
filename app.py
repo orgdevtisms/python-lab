@@ -7,7 +7,7 @@ Uso em linha de comando:  python app.py --out relatorio.pdf --query "from=now-30
 import argparse, datetime as dt, io, os, re, threading
 from urllib.parse import parse_qsl, urlencode
 
-GRAFANA_URL = os.getenv("GRAFANA_URL", "http://localhost:3000").rstrip("/")
+GRAFANA_URL = os.getenv("GRAFANA_URL", "http://10.200.201.119:3000").rstrip("/")
 GRAFANA_TOKEN = os.getenv("GRAFANA_TOKEN", "")              # service account (Viewer)
 DASH_UID = os.getenv("DASH_UID", "deas2tf4nfl6oe")
 DASH_TITLE = os.getenv("DASH_TITLE", "MONITORAMENTO GIGANET")
