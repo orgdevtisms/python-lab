@@ -8,5 +8,5 @@ RUN python3 -m pip install --no-cache-dir -r requirements.txt \
  && python3 -c "import playwright, flask, PIL; print('playwright OK em', playwright.__file__)"
 COPY app.py .
 EXPOSE 8085
-CMD ["python3", "-m", "gunicorn", "-b", "10.200.201.119:8085", "--workers", "2", "--timeout", "240", "app:app"]
+CMD ["python3", "-m", "gunicorn", "-b", "0.0.0.0:8085", "--workers", "2", "--timeout", "240", "app:app"]
 
